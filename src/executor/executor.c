@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:46:40 by jtu               #+#    #+#             */
-/*   Updated: 2024/04/19 10:43:36 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:35:59 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,34 @@ char	*find_path(t_exec *exec, char *cmd, char **envp)
 	return (0);
 }
 
-/*find the command and execute it*/
-void	execute_cmd(t_exec *exec, t_cmd parsed_cmd, char **envp)
+static void	run_redir_or_builtin(t_exec *exec, t_cmd parsed_cmd)
 {
-	char		*path;
 	int			builtin_status;
 
 	if (check_redirections(exec, parsed_cmd, true))
 		exit (1);
+	if (!parsed_cmd.cmd[0])
+	{
+		ft_freeall(exec);
+		exit(0);
+	}
 	builtin_status = run_builtin(exec, parsed_cmd.cmd);
 	if (builtin_status != -1)
 	{
 		exec->exit_code = builtin_status;
 		exit(builtin_status);
 	}
-	if (!parsed_cmd.cmd[0] || !parsed_cmd.cmd[0][0])
+	if (!parsed_cmd.cmd[0][0])
 		error_exit(exec, error_msg(parsed_cmd.cmd[0], \
 			"command not found", false), 127, true);
+}
+
+/*find the command and execute it*/
+void	execute_cmd(t_exec *exec, t_cmd parsed_cmd, char **envp)
+{
+	char		*path;
+
+	run_redir_or_builtin(exec, parsed_cmd);
 	if (!ft_strrchr(parsed_cmd.cmd[0], '/'))
 		path = find_path(exec, parsed_cmd.cmd[0], envp);
 	else

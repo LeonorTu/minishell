@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:11:41 by jberay            #+#    #+#             */
-/*   Updated: 2024/04/19 10:44:11 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:34:07 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,27 @@ void	take_redir_out(t_char_iter *iter, t_token *token)
 	token->location.start = char_iter_cursor(iter);
 	token->location.len = 1;
 	char_iter_next(iter);
+}
+
+void	take_exp(t_char_iter *iter, t_token *token)
+{
+	token->type = SQUOTE_TOKEN;
+	token->location.start = char_iter_cursor(iter) + 1;
+	token->location.len = 0;
+	char_iter_next(iter);
+	while (char_iter_cursor(iter) != iter->end
+		&& char_iter_peek(iter) != 31)
+	{
+		char_iter_next(iter);
+		token->location.len++;
+	}
+	if (char_iter_cursor(iter) == iter->end)
+	{
+		token->type = ERROR_TOKEN;
+		token->location.start--;
+		token->location.len = 1;
+		return ;
+	}
+	else
+		char_iter_next(iter);
 }

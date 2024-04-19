@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:10:55 by jberay            #+#    #+#             */
-/*   Updated: 2024/04/19 10:44:11 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:34:13 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	tokenizer_loop(t_token *token, t_char_iter *iter, int *d_flag)
 		take_space(iter, token);
 	else if (iter->start[0] == '"')
 		take_dquote(iter, token, d_flag);
+	else if (iter->start[0] == 31 && *d_flag % 2 == 0)
+		take_exp(iter, token);
 	else if (iter->start[0] == '$'
 		&& (iter->start[1] == '\0' || iter->start[1] == '?'
 			|| iter->start[1] == '=' || ft_isdigit(iter->start[1])

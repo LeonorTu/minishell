@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberay <jberay@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:02:45 by jberay            #+#    #+#             */
-/*   Updated: 2024/04/03 09:15:25 by jberay           ###   ########.fr       */
+/*   Updated: 2024/04/19 11:35:43 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	take_dollar(t_char_iter *iter, t_token *token, int *d_flag);
 void	take_space(t_char_iter *iter, t_token *token);
 void	take_eol(t_char_iter *iter, t_token *token);
 void	take_error(t_char_iter *iter, t_token *token, int d_flag);
+void	take_exp(t_char_iter *iter, t_token *token);
 
 /*utils*/
 int		check_syntax(t_token *token);

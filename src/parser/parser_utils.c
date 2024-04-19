@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:12:01 by jberay            #+#    #+#             */
-/*   Updated: 2024/04/19 10:44:10 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:32:19 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_realloc_array(char ***args, size_t size)
 		return (MALLOC_ERROR);
 	}
 	i = 0;
-	while (i < size - 1)
+	while (i < size - 2)
 	{
 		new[i] = tmp[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:56:50 by jtu               #+#    #+#             */
-/*   Updated: 2024/04/19 10:43:36 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:28:06 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ char	*find_home(t_exec *exec, char **envp)
 	home_path = *envp + 5;
 	return (home_path);
 }
+/*
+	oldpwd gets value from pwd env variable
+	if pwd is unset
+	old pwd is set to empty
+	if cd again it gets the pwd getwcd
+*/
 
 void	update_pwd(t_exec *exec, char *buffer)
 {
@@ -31,23 +37,20 @@ void	update_pwd(t_exec *exec, char *buffer)
 	char	*pwd;
 
 	old[0] = "export";
-	old[1] = ft_strjoin("OLDPWD=", buffer);
-	if (!old[1])
-		ft_error(exec, "malloc error", MALLOC_ERROR);
 	old[2] = NULL;
+	old[1] = ft_strjoin("OLDPWD=", buffer);
+	malloc_guard(exec, old[1]);
 	ft_export(exec, old);
 	free(old[1]);
 	key = ft_strdup("PWD");
+	malloc_guard(exec, key);
 	pwd = ft_getenv(exec, key);
 	if (pwd != NULL)
 	{
 		getcwd(buffer, 1024);
 		old[1] = ft_strjoin("PWD=", buffer);
-		if (!old[1])
-			ft_error(exec, "malloc error", MALLOC_ERROR);
-		old[2] = NULL;
+		malloc_guard(exec, old[1]);
 		ft_export(exec, old);
-		free(old[1]);
 	}
 	free(pwd);
 }

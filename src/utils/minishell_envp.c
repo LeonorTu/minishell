@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 09:54:13 by jberay            #+#    #+#             */
-/*   Updated: 2024/04/19 10:44:10 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:38:29 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,9 @@ void	update_shlvl(t_exec *exec)
 void	make_envp(t_exec *exec, char **envp)
 {
 	int		envp_status;
-	char	*old[3];
+	char	buffer[1024];
+	char	*pwd;
 
-	old[0] = "unset";
-	old[1] = "OLDPWD";
-	old[2] = NULL;
 	envp_status = ft_arrdup(&exec->envp, envp);
 	if (envp_status == MALLOC_ERROR)
 		exit (MALLOC_ERROR);
@@ -97,5 +95,11 @@ void	make_envp(t_exec *exec, char **envp)
 	exec->exit_code = 0;
 	update_shlvl(exec);
 	if (isatty(0))
-		ft_unset(exec, old);
+	{
+		getcwd(buffer, 1024);
+		ft_unset(exec, (char *[]){"unset", "OLDPWD", NULL});
+		pwd = ft_strjoin("PWD=", buffer);
+		malloc_guard(exec, pwd);
+		ft_export(exec, (char *[]){"export", pwd, NULL});
+	}
 }

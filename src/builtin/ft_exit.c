@@ -6,12 +6,11 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:00:40 by jberay            #+#    #+#             */
-/*   Updated: 2024/04/19 10:43:36 by jtu              ###   ########.fr       */
+/*   Updated: 2024/04/19 11:28:41 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 /*
 exit at LONG MAX = -1
 exit at LONG MIN = 0
@@ -29,7 +28,7 @@ static void	is_overflow(t_exec *exec, char *cmd, int ato)
 		return ;
 	else if (ato == -1 && ft_strncmp(cmd, "9223372036854775807", 20) == 0)
 		return ;
-	msg = ft_strjoin_3("exit\njjsh: exit: ", \
+	msg = ft_strjoin_3("jjsh: exit: ", \
 		cmd, ": numeric argument required\n");
 	malloc_guard(exec, msg);
 	write(2, msg, ft_strlen(msg));
